@@ -16,13 +16,18 @@ Hash: SHA1
 
 SHA1 7b58e232c30e9024c3bb2fbaeb29a80aead097fc Build.PL
 SHA1 c6963d9bc3af46d261a87741d867b4aeeaabbcf1 Changes
-SHA1 416ace768cebd097af97a662458a0f6b0ce7ddce MANIFEST
-SHA1 4184c658f6d60257f12d24906a47486545e62243 META.yml
-SHA1 e0a06c3314fb9443b537a93e16eb48b1ffa80607 Makefile.PL
-SHA1 55719d0d9e10ba3dc708e299579cf2e2bee99a40 README
-SHA1 9b7e15f139917c00ef5fad6213548df20f8e81ab lib/Parse/Deb/Control.pm
+SHA1 195ddd22aa721ba3104d01ebceef35ef532810b7 MANIFEST
+SHA1 578bee24d29bc7b10fe71c36819daef2ac3da755 META.yml
+SHA1 a981fc1e153f2e16dcce61634dbec95902435a5f Makefile.PL
+SHA1 1bc218070442e620c45d5732881fc94e50226f15 README
+SHA1 eac280798232e65843a51a8cd580d14f68fb3f9a examples/autochangelog
+SHA1 f278fd99d4de10b01858963b0dc6913418d140b5 examples/build-all-from-source
+SHA1 cb091459d5c0953d4dee5c6bb4029f9375f8a339 examples/build-pkg
+SHA1 b174191f244dd334f1c5d027daedbfef06be917a examples/get-all-source-dependecies
+SHA1 a72884d95b2c8716e1d80614f4fb7d5e67414f6d examples/show-source-dependecies
+SHA1 2ab19c8f1aa397b33fbbc98128c16c0cd65edca4 lib/Parse/Deb/Control.pm
 SHA1 ab9eec774db543794d6af35d13fb8c147d104243 script/deb-control-key-values
-SHA1 061a61d652db759f33da8e455dc4036095a3cd15 script/deb-control-prefix-perl
+SHA1 fbac9129c5378a5f13a1031df3759fb5417aa649 script/deb-control-prefix-perl
 SHA1 e097424b619f7626b5a78a3acd4c5587728ce59b t/01_Parse-Deb-Control.t
 SHA1 5525e99fceb0d20246bccf940545114ddd8d95a9 t/control/control-perl
 SHA1 1f9ea02e02b6a25f5c673a6909e1477b5571aa7d t/control/control-perl-simple
@@ -33,7 +38,7 @@ SHA1 d9ce3ca35596475bef4fefe58926889a01ef96f4 t/control/control-perl-simple-step
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.9 (GNU/Linux)
 
-iEYEARECAAYFAkn2Da0ACgkQC0OgUPgL2Sd7kgCfaTn8OSATQjzBhDLwUKCkpvGY
-CR4An0Vf3Rzg87FrLwS5ZGE04b4+DHuI
-=8mGU
+iEYEARECAAYFAkojqKEACgkQC0OgUPgL2SfhCwCfebDNxT+2WcCyyYGzYLQSP67n
+n1UAnA/W5hbf+D1nYpsr4TFkdq22csac
+=sMnL
 -----END PGP SIGNATURE-----

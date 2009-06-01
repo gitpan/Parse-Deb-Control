@@ -37,18 +37,22 @@ PROPERTIES
 
 METHODS
   new()
+
     Object constructor. Accepts filehandle, string or filename to get
     debian/control from.
 
   content()
+
     Returns content of the debian/control. The return value is an array ref
     holding hashes representing control file paragraphs.
 
   control
+
     Returns text representation of a debian/control constructed from
-    "<$self-"content>> and "<$self-"structure>>.
+    `<$self-'content>> and `<$self-'structure>>.
 
   get_keys
+
     Parameters are the requested keys from debian/control. Returns array of
     key/values of matching keys. Ex.
 
@@ -62,14 +66,14 @@ METHODS
     modified if needed.
 
 AUTHOR
-    Jozef Kutej, "<jkutej at cpan.org>"
+    Jozef Kutej, `<jkutej at cpan.org>'
 
 BUGS
-    Please report any bugs or feature requests to "bug-parse-deb-control at
-    rt.cpan.org", or through the web interface at
-    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Parse-Deb-Control>. I
-    will be notified, and then you'll automatically be notified of progress
-    on your bug as I make changes.
+    Please report any bugs or feature requests to `bug-parse-deb-control at
+    rt.cpan.org', or through the web interface at
+    http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Parse-Deb-Control. I will
+    be notified, and then you'll automatically be notified of progress on
+    your bug as I make changes.
 
 SUPPORT
     You can find documentation for this module with the perldoc command.
@@ -78,21 +82,17 @@ SUPPORT
 
     You can also look for information at:
 
-    *   RT: CPAN's request tracker
+    * RT: CPAN's request tracker
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Parse-Deb-Control
 
-        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Parse-Deb-Control>
+    * AnnoCPAN: Annotated CPAN documentation
+        http://annocpan.org/dist/Parse-Deb-Control
 
-    *   AnnoCPAN: Annotated CPAN documentation
+    * CPAN Ratings
+        http://cpanratings.perl.org/d/Parse-Deb-Control
 
-        <http://annocpan.org/dist/Parse-Deb-Control>
-
-    *   CPAN Ratings
-
-        <http://cpanratings.perl.org/d/Parse-Deb-Control>
-
-    *   Search CPAN
-
-        <http://search.cpan.org/dist/Parse-Deb-Control>
+    * Search CPAN
+        http://search.cpan.org/dist/Parse-Deb-Control
 
 ACKNOWLEDGEMENTS
 COPYRIGHT & LICENSE
