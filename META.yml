@@ -1,6 +1,6 @@
 ---
 name: Parse-Deb-Control
-version: 0.02
+version: 0.03
 author:
   - 'Jozef Kutej <jkutej@cpan.org>'
 abstract: parse and manipulate F<debian/control> in a controlable way
@@ -21,8 +21,8 @@ build_requires:
 provides:
   Parse::Deb::Control:
     file: lib/Parse/Deb/Control.pm
-    version: 0.02
-generated_by: Module::Build version 0.33
+    version: 0.03
+generated_by: Module::Build version 0.280801
 meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2

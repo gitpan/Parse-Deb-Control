@@ -19,4 +19,3 @@ t/control/control-perl-simple-add-remove
 t/control/control-perl-simple-step1
 t/control/control-perl-simple-step2
 t/control/control-perl-simple-step3
-SIGNATURE    Added here by Module::Build
