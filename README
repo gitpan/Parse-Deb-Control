@@ -5,7 +5,18 @@ NAME
 SYNOPSIS
     Print out all "Package:" values lines
 
+        use Parse::Deb::Control;
+
         my $parser = Parse::Deb::Control->new($control_txt);
+        my $parser = Parse::Deb::Control->new(['path', 'to', 'debian', 'control']);
+        my $parser = Parse::Deb::Control->new($fh);
+    
+        foreach my $para ($parser->get_paras('Package')) {
+            print $para->{'Package'}, "\n";
+        }
+
+    or
+
         foreach my $entry ($parser->get_keys('Package')) {
             print ${$entry->{'value'}}, "\n";
         }
@@ -13,10 +24,21 @@ SYNOPSIS
     Modify "Maintainer:"
 
         my $mantainer = 'someone@new';
+
         my $parser = Parse::Deb::Control->new($control_txt);
-            foreach my $src_pkg ($parser->get_keys(qw{ Maintainer })) {
+        foreach my $para ($parser->get_paras(qw{ Maintainer })) {
+            $para->{'Maintainer'} =~ s/^ (\s*) (\S.*) $/ $maintainer\n/xms;
+        }
+
+    or
+
+        my $parser = Parse::Deb::Control->new($control_txt);
+        foreach my $src_pkg ($parser->get_keys(qw{ Maintainer })) {
             ${$src_pkg->{'value'}} =~ s/^ (\s*) (\S.*) $/ $maintainer\n/xms;
         }
+
+    and
+
         print $parser->control;
 
 DESCRIPTION
@@ -37,7 +59,7 @@ PROPERTIES
 
 METHODS
   new()
-    Object constructor. Accepts filehandle, string or filename to get
+    Object constructor. Accepts anythign IO::Any->read() does to get
     debian/control from.
 
   content()
@@ -46,7 +68,7 @@ METHODS
 
   control
     Returns text representation of a debian/control constructed from
-    "<$self-"content>> and "<$self-"structure>>.
+    `<$self-'content>> and `<$self-'structure>>.
 
   get_keys
     Parameters are the requested keys from debian/control. Returns array of
@@ -61,15 +83,18 @@ METHODS
     Note that value is a pointer to scalar value so that it can be easyly
     modified if needed.
 
+  get_paras
+    Returns a paragraphs that has key(s) passed as argument.
+
 AUTHOR
-    Jozef Kutej, "<jkutej at cpan.org>"
+    Jozef Kutej, `<jkutej at cpan.org>'
 
 BUGS
-    Please report any bugs or feature requests to "bug-parse-deb-control at
-    rt.cpan.org", or through the web interface at
-    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Parse-Deb-Control>. I
-    will be notified, and then you'll automatically be notified of progress
-    on your bug as I make changes.
+    Please report any bugs or feature requests to `bug-parse-deb-control at
+    rt.cpan.org', or through the web interface at
+    http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Parse-Deb-Control. I will
+    be notified, and then you'll automatically be notified of progress on
+    your bug as I make changes.
 
 SUPPORT
     You can find documentation for this module with the perldoc command.
@@ -78,21 +103,17 @@ SUPPORT
 
     You can also look for information at:
 
-    *   RT: CPAN's request tracker
+    * RT: CPAN's request tracker
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Parse-Deb-Control
 
-        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Parse-Deb-Control>
+    * AnnoCPAN: Annotated CPAN documentation
+        http://annocpan.org/dist/Parse-Deb-Control
 
-    *   AnnoCPAN: Annotated CPAN documentation
+    * CPAN Ratings
+        http://cpanratings.perl.org/d/Parse-Deb-Control
 
-        <http://annocpan.org/dist/Parse-Deb-Control>
-
-    *   CPAN Ratings
-
-        <http://cpanratings.perl.org/d/Parse-Deb-Control>
-
-    *   Search CPAN
-
-        <http://search.cpan.org/dist/Parse-Deb-Control>
+    * Search CPAN
+        http://search.cpan.org/dist/Parse-Deb-Control
 
 ACKNOWLEDGEMENTS
 COPYRIGHT & LICENSE

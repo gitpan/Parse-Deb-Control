@@ -8,7 +8,18 @@ Parse::Deb::Control - parse and manipulate F<debian/control> in a controlable wa
 
 Print out all "Package:" values lines
 
+    use Parse::Deb::Control;
+
     my $parser = Parse::Deb::Control->new($control_txt);
+    my $parser = Parse::Deb::Control->new(['path', 'to', 'debian', 'control']);
+    my $parser = Parse::Deb::Control->new($fh);
+    
+    foreach my $para ($parser->get_paras('Package')) {
+        print $para->{'Package'}, "\n";
+    }
+
+or
+
     foreach my $entry ($parser->get_keys('Package')) {
         print ${$entry->{'value'}}, "\n";
     }
@@ -16,10 +27,21 @@ Print out all "Package:" values lines
 Modify "Maintainer:"
 
     my $mantainer = 'someone@new';
+
     my $parser = Parse::Deb::Control->new($control_txt);
-	foreach my $src_pkg ($parser->get_keys(qw{ Maintainer })) {
+    foreach my $para ($parser->get_paras(qw{ Maintainer })) {
+        $para->{'Maintainer'} =~ s/^ (\s*) (\S.*) $/ $maintainer\n/xms;
+    }
+
+or
+    
+    my $parser = Parse::Deb::Control->new($control_txt);
+    foreach my $src_pkg ($parser->get_keys(qw{ Maintainer })) {
         ${$src_pkg->{'value'}} =~ s/^ (\s*) (\S.*) $/ $maintainer\n/xms;
     }
+
+and
+
     print $parser->control;
 
 =head1 DESCRIPTION
@@ -40,14 +62,14 @@ See also L<Parse::DebControl> for alternative.
 use warnings;
 use strict;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use base 'Class::Accessor::Fast';
 
-use File::Slurp qw(read_file write_file);
 use Storable 'dclone';
 use List::MoreUtils 'any';
-use IO::String;
+use IO::Any;
+use Carp;
 
 =head1 PROPERTIES
 
@@ -65,34 +87,17 @@ __PACKAGE__->mk_accessors(qw{
 
 =head2 new()
 
-Object constructor. Accepts filehandle, string or filename to get
+Object constructor. Accepts anythign L<IO::Any>->read() does to get
 F<debian/control> from.
 
 =cut
 
 sub new {
     my $class = shift;
-    my $src   = shift;
+    my $what  = shift || '';
     my $self  = $class->SUPER::new({});
     
-    return $self
-        if not $src;
-    
-    # assume it's file handle if it can getline method
-    if (eval { $src->can('getline') }) {
-        $self->_control_src($src);
-        return $self;
-    }
-
-    # assume it's string if there are new lines
-    if ($src =~ m/\n/xms) {
-        $self->_control_src(IO::String->new($src));
-        return $self;
-    }
-
-    # otherwise open file for reading
-    open my $io, '<', $src or die 'failed to open "'.$src.'" - '.$!;
-    $self->_control_src($io);
+    $self->_control_src(IO::Any->read($what));
 
     return $self;
 }
@@ -123,7 +128,7 @@ sub content {
         $line_number++;
         $control_txt .= $line;
         
-        # if the line is epmty it's the end of control paragraph
+        # if the line is empty it's the end of control paragraph
         if ($line =~ /^\s*$/) {
             $last_value = undef;
             push @structure, $line;
@@ -142,6 +147,12 @@ sub content {
             next;
         }
         
+        # line starting with # are comments
+        if ($line =~ /^#/) {
+            push @structure, $line;
+            next;
+        }
+        
         # other should be key/value lines
         if ($line =~ /^([^:]+):(.*$)/xms) {
             my ($key, $value) = ($1, $2);
@@ -151,7 +162,7 @@ sub content {
             next;
         }
         
-        die 'unrecognized format "'.$line.'" (line '.$line_number.')';
+        croak 'unrecognized format "'.$line.'" (line '.$line_number.')';
     }
     push @content, $last_para
         if defined $last_para;
@@ -164,7 +175,7 @@ sub content {
     # write_file('xxx1', $control_txt);
     # write_file('xxx2', $self->control);
     
-    die 'control reconstruction failed, send your "control" file attached to bug report :)'
+    croak 'control reconstruction failed, send your "control" file attached to bug report :-)'
         if $control_txt ne $self->_control;
     
     return \@content;
@@ -199,10 +210,19 @@ sub _control {
     
     my $control_txt = '';
     my @content     = @{$self->content};
+    return $control_txt
+        if not @content;
+    
     my %cur_para    = %{shift @content};
     
     # loop through the control file structure
     foreach my $structure_key (@{$self->structure}) {
+        # just add comment lines
+        if ($structure_key =~ /^#/) {
+            $control_txt .= $structure_key;
+            next;
+        }
+        
         if ($structure_key =~ /^\s*$/) {
             # loop throug new keys and add them
             foreach my $key (sort keys %cur_para) {
@@ -268,6 +288,23 @@ sub get_keys {
     }
     
     return @wanted_keys;
+}
+
+=head2 get_paras
+
+Returns a paragraphs that has key(s) passed as argument.
+
+=cut
+
+sub get_paras {
+    my $self = shift;
+    my @wanted = @_;
+    
+    my @keys = $self->get_keys(@wanted);
+    return
+        map { $_->{'para'} }
+        @keys
+    ;
 }
 
 1;

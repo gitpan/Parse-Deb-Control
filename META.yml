@@ -1,28 +1,30 @@
 ---
-name: Parse-Deb-Control
-version: 0.03
+abstract: 'parse and manipulate F<debian/control> in a controlable way'
 author:
   - 'Jozef Kutej <jkutej@cpan.org>'
-abstract: parse and manipulate F<debian/control> in a controlable way
-license: perl
-resources:
-  license: http://dev.perl.org/licenses/
-requires:
-  Class::Accessor::Fast: 0
-  File::Slurp: 0
-  IO::String: 0
-  List::MoreUtils: 0
-  Storable: 0
 build_requires:
+  File::Slurp: 0
   File::Spec: 0
   Test::Differences: 0
   Test::Exception: 0
   Test::More: 0
+configure_requires:
+  Module::Build: 0.36
+generated_by: 'Module::Build version 0.3603'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Parse-Deb-Control
 provides:
   Parse::Deb::Control:
     file: lib/Parse/Deb/Control.pm
-    version: 0.03
-generated_by: Module::Build version 0.280801
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
+    version: 0.04
+requires:
+  Class::Accessor::Fast: 0
+  IO::Any: 0.04
+  List::MoreUtils: 0
+  Storable: 0
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.04
